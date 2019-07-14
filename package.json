@@ -1,0 +1,20 @@
+{
+  "name": "dmp-item-select",
+  "description": "some items select with input output",
+  "main": ".src/dmp-item-select.js",
+  "version": "1.0.0",
+  "repository": "https://github.com/ddmmcc/dmp-item-selector",
+  "license": "MIT",
+  "dependencies": {
+    "@polymer/iron-ajax": "^3.0.1",
+    "@polymer/paper-checkbox": "^3.1.0",
+    "@polymer/polymer": "^3.0.0",
+    "dmp-btn-toggle": "^1.1.0",
+    "latest": "^0.2.0"
+  },
+  "devDependencies": {
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "wct-browser-legacy": "^1.0.0"
+  }
+}

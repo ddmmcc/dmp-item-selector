@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>dmp-item-selector demo</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+      import '@polymer/iron-demo-helpers/demo-snippet';
+    </script>
+
+    <script type="module" src="../dmp-item-selector.js"></script>
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>dmp-item-selector demo (Basic)</h3>
+      <demo-snippet>
+        <template>
+          <dmp-item-selector label='This is the Item selector' id='demo1' items='[ {"id": 0, "value" : "item1"}, {"id": 1, "value" : "item number 2"}, {"id": 2, "value" : "item number 3"}]'></dmp-item-selector>
+        </template>
+      </demo-snippet>
+    </div>
+    <div class="vertical-section-container centered">
+      <h3>Basic dmp-item-selector demo (Required)</h3>
+      <demo-snippet>
+        <template>
+          <dmp-item-selector id='demo2' class='comp1' required></dmp-item-selector>
+          <script>
+            const el = document.querySelector("#demo2");
+            fetch("../mocks/items.json")
+            .then(res=> res.json())
+            .then(json=> el.items = json);
+            
+            el.addEventListener('ar-items-selected-changed', (e)=> console.log(e))
+
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+    <div class="vertical-section-container centered">
+      <h3>Basic dmp-item-selector demo MIN items 4</h3>
+      <demo-snippet>
+        <template>
+          <dmp-item-selector id='demo3' class='comp1' min-items='4'></dmp-item-selector>
+          <script>
+            fetch("../mocks/items.json")
+            .then(res=> res.json())
+            .then(json=> document.querySelector("#demo3").items = json);
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+    <div class="vertical-section-container centered">
+      <h3>Basic dmp-item-selector demo MAX items 5</h3>
+      <demo-snippet>
+        <template>
+          <dmp-item-selector id='demo4' class='comp1' max-items='5'></dmp-item-selector>
+          <script>
+            fetch("../mocks/items.json")
+            .then(res=> res.json())
+            .then(json=> document.querySelector("#demo4").items = json);
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+    <script>
+    </script>
+  </body>
+</html>
