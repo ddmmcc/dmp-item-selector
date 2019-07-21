@@ -22,9 +22,12 @@ class DmpItemSelector extends PolymerElement {
         
 
         .item {
-          margin: 2px;
-          display: inline-block;
-          user-select: none;
+            border-radius: 6px;
+            margin: 2px;
+            display: inline-block;
+            color: white;
+            user-select: none;
+            transition: 0.4s box-shadow;
         }
         /* child vars */
         dmp-btn-toggle{
@@ -46,18 +49,11 @@ class DmpItemSelector extends PolymerElement {
       <div>[[info]]</div>
       <div class='items'>
         <template is="dom-repeat" items="{{items}}" >
-          <dmp-btn-toggle ownid$='[[item.id]]' selected="{{item.selected}}" disabled="{{item.disabled}}" class='item' value='{{item.value}}'></dmp-btn-toggle>
-          <!--
-            <div>
-              <input type="checkbox" checked="{{item.selected::change}}" />
-              [[item.value]]
-            </div>
-          -->
-          
+          <dmp-btn-toggle on-click='toggleElement' ownid$='[[item.id]]' class='item' value='[[item.value]]'></dmp-btn-toggle>
         </template>
       </div>
-      <template is='dom-repeat' items='{{errorMsgs}}' filter='[[_checkErrMsgTrue]]' observe='active'>
-        <div class='error'>[[item.msg]]</div>
+      <template is='dom-repeat' items='{{msgError}}' filter='[[_checkErrMsgTrue]]' observe='active'>
+          <div class='error'>[[item.msg]]</div>
       </template>      
       `;
   }
@@ -69,15 +65,15 @@ class DmpItemSelector extends PolymerElement {
         type: Array,
       },
       items : {
-        type: Array,
-        value: []
-      },
-      selectedItems:{
         type: Array
       },
       /** Selected indexes string coma separated */
       value : {      
         type: String,
+      },
+      txtValueEmpty : {
+        type: Boolean,
+        value: false
       },
       label : {
         type : String
@@ -91,7 +87,7 @@ class DmpItemSelector extends PolymerElement {
       minItems : {
         type : Number,
       },
-      errorMsgs : {
+      msgError : {
         type : Array,
       },
       error : {
@@ -101,23 +97,21 @@ class DmpItemSelector extends PolymerElement {
       required : {
         type : Boolean
       },
-      valid : {
+      validated : {
         type: Boolean,
         value: false
       },
       itemsDisabled : {
         type: Boolean,
         value: false
-      },
-      autoValidate: {
-        type: Boolean,
-        value: false
-      }
+      }      
     }
   }
 
   static get observers () {
-    return ['_itemsChanged(items.*)']
+      return [
+
+      ]
   }
 
 
@@ -129,65 +123,9 @@ class DmpItemSelector extends PolymerElement {
   //---------------------------------------------------------
   //---------------------------------------------------------
 
-  reset() {
-    this.items = undefined;
-    this.valid = true;
-
-  }
-
-  isValid(){
-    return this.valid;
-  }
-
-  /**
-   * 
-   * @param {*} index item index
-   * @param {*} action true/false ( disabled )
-   */
-  toggleDisableItem(index, action) {
-    this.set(`items.${index}.disabled`, action);
-  }  
-
-  _itemsChanged(newVal, oldVal) {
-    const items = this.items;
-    this.selectedItems = items.filter(item => item.selected);
-    if ( this.autoValidate){
-      this._validateMax(items, this.maxItems, this.selectedItems );
-      this._validateMin(items, this.minItems, this.selectedItems );
-      if ( this.errorMsgs ) {
-        this.validation();
-      }
-    }
-  }
-
-  _validateMin(items, validateMin, selectedItems) {
-    this.valid = !( items && validateMin && selectedItems.length < validateMin);
-    if ( items && validateMin && selectedItems.length >= validateMin ) {
-      console.log("error min")
-    }
-  }
-
-  _validateMax(items, validateMax, selectedItems) {
-    this.valid = !(items && validateMax && selectedItems.length > validateMax);
-    if ( items && validateMax && selectedItems.length >= validateMax ) {
-      this._setItemsDisabled(items);
-    }else if (items && validateMax){
-      this._setItemsDisabled(items, true);
-    }
-  }
-
-  _setItemsDisabled(items, all) {
-    items.forEach((item, index) => {
-      if ( all || item.selected ) {
-        this.set(`items.${index}.disabled`, false)
-      }else{
-        this.set(`items.${index}.disabled`, true)
-      }
-    });
-  }
 
   generateErrorMsg(){
-    this.errorMsgs =  [
+    this.msgError =  [
       {active : false , msg : "No puedes seleccionar mas de "+this.maxItems+" opciones" },
       {active : false , msg : "Debes seleccionar almenos "+this.minItems+" opciones" },
       {active : false , msg : "Este campo es requerido" }
@@ -257,7 +195,7 @@ class DmpItemSelector extends PolymerElement {
     return item.active; 
   }
   filterRefresh () {
-    this.errorMsgs = this.errorMsgs.slice(0);
+    this.msgError = this.msgError.slice(0);
     //this.arITems = this.arITems.slice(0);
   }
 
@@ -275,11 +213,9 @@ class DmpItemSelector extends PolymerElement {
       }
     }.bind(this))
   }
-
   validate(){
     this.validation();
   }
-
   validation(){
     var error = false;
     if ( this.errorMaxItemsAllow() ) {error = true}
@@ -291,47 +227,45 @@ class DmpItemSelector extends PolymerElement {
     return error;
   }
   errorMaxItemsAllow(){
-    if ( this.selectedItems.length > this.maxItems ){
+    if ( this.arItemsSelected.length > this.maxItems ){
       this.error = true;
-      this.errorMsgs[0].active = true;
+      this.msgError[0].active = true;
     }else{
       this.error = false;
-      this.errorMsgs[0].active = false;
+      this.msgError[0].active = false;
     }
     return this.error;
   }
   errorMinItemsAllow(){
-    if ( this.selectedItems.length < this.minItems ){
+    if ( this.arItemsSelected.length < this.minItems ){
       this.error = true;
-      this.errorMsgs[1].active = true;
+      this.msgError[1].active = true;
     }else{
       this.error = false;
-      this.errorMsgs[1].active = false;
+      this.msgError[1].active = false;
     }
     return this.error;
   }
   errorRequired(){
-    if ( this.selectedItems.length === 0 ){
+    if ( this.arItemsSelected.length === 0 ){
       this.error = true;
-      this.errorMsgs[2].active = true;
+      this.msgError[2].active = true;
     }else{
       this.error = false;
-      this.errorMsgs[2].active = false;
+      this.msgError[2].active = false;
     }
     return this.error;
   }
   ready(){
     super.ready();
+    this.arItemsSelected = [];
     this.validateComp();
     this.generateErrorMsg();
   }
   
   validateComp(){
     if ( this.maxItems < this.minItems ){
-      console.warn("maxItems < minItems ");
-    }
-    if ( (this.maxItems || this.minItems || this.required ) && !this.errorMsgs ){
-      console.warn("the component has validation but doesnt have error messages");
+      console.error("maxItems < minItems in "+this.constructor.name);
     }
   }
 }

@@ -1,0 +1,22 @@
+[
+    {"id": 0, "disabled": false, "selected": true, "featured": false,  "value" : "item1"},
+    {"id": 1, "disabled": true, "selected": false, "featured": false,  "value" : "item2"},
+    {"id": 2, "disabled": false, "selected": true, "featured": false,  "value" : "item3"},
+    {"id": 3, "disabled": true, "selected": true, "featured": false,  "value" : "item4"},
+    {"id": 4, "disabled": false, "selected": true, "featured": true,  "value" : "item5"},
+    {"id": 5, "disabled": false, "selected": false, "featured": false,  "value" : "item6"},
+    {"id": 6, "disabled": false, "selected": false, "featured": false,  "value" : "item7"},
+    {"id": 7, "disabled": false, "selected": false, "featured": true,  "value" : "item8"},
+    {"id": 8, "disabled": false, "selected": false, "featured": false,  "value" : "item9"},
+    {"id": 9, "disabled": false, "selected": false, "featured": true,  "value" : "item10"},
+    {"id": 10, "disabled": false, "selected": false, "featured": false,  "value" : "item11"},
+    {"id": 11, "disabled": false, "selected": false, "featured": true,  "value" : "item12"},
+    {"id": 12, "disabled": false, "selected": false, "featured": false,  "value" : "item13"},
+    {"id": 13, "disabled": false, "selected": false, "featured": false,  "value" : "item14"},
+    {"id": 14, "disabled": false, "selected": false, "featured": false,  "value" : "item15"},
+    {"id": 15, "disabled": false, "selected": false, "featured": false,  "value" : "item16"},
+    {"id": 16, "disabled": false, "selected": false, "featured": false,  "value" : "item17"},
+    {"id": 17, "disabled": false, "selected": false, "featured": false,  "value" : "item18"},
+    {"id": 18, "disabled": false, "selected": false, "featured": false,  "value" : "item19"},
+    {"id": 19, "disabled": false, "selected": false, "featured": false,  "value" : "item20"}
+  ]
