@@ -1,5 +1,5 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '../node_modules/dmp-btn-toggle/dmp-btn-toggle.js';
+import 'dmp-btn-toggle/dmp-btn-toggle.js';
 
 
 /**
