@@ -19,7 +19,9 @@ class DmpItemSelector extends PolymerElement {
           position: relative;
           background-color: var(--fondo);
         }
-        
+        :host(.centered) .items {
+          text-align: center;
+        }
 
         .item {
           margin: 2px;
