@@ -64,16 +64,14 @@ class DmpItemSelector extends PolymerElement {
 
   static get properties() {
     return {
-      /** Array width selected indexes */
-      arItemsSelected : {
-        type: Array,
-      },
       items : {
         type: Array,
-        value: []
+        value: [],
+        notify: true
       },
       selectedItems:{
-        type: Array
+        type: Array,
+        notify: true
       },
       /** Selected indexes string coma separated */
       value : {      

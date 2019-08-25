@@ -40,7 +40,8 @@
             .then(res=> res.json())
             .then(json=> el.items = json);
             
-            el.addEventListener('ar-items-selected-changed', (e)=> console.log(e))
+            el.addEventListener('items-changed', (e)=> console.log(e))
+            el.addEventListener('selected-items-changed', (e)=> console.log(e))
 
           </script>
         </template>

@@ -2,7 +2,7 @@
   "name": "dmp-item-select",
   "description": "some items select with input output",
   "main": ".src/dmp-item-select.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "https://github.com/ddmmcc/dmp-item-selector",
   "license": "MIT",
   "dependencies": {
