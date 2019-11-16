@@ -30,10 +30,10 @@ class DmpItemSelector extends PolymerElement {
         }
         /* child vars */
         dmp-btn-toggle{
+          --backgroundColor: var(--primary-color, indianred);
+          --backgroundDisable : var(--light-theme-disabled-color, grey);
+          --backgroundSelected : var(--dark-primary-color, crimson);
           /*
-          --backgroundColor: red;
-          --backgroundDisable : green;
-          --backgroundSelected : orange;
           --borderRadius : 6px;
           */
         }
@@ -44,8 +44,8 @@ class DmpItemSelector extends PolymerElement {
       
 
 
-      <div>[[label]]</div>
-      <div>[[info]]</div>
+      <p>[[label]]</p>
+      <p>[[info]]</p>
       <div class='items'>
         <template is="dom-repeat" items="{{items}}" >
           <dmp-btn-toggle ownid$='[[item.id]]' selected="{{item.selected}}" disabled="{{item.disabled}}" class='item' value='{{item.value}}'></dmp-btn-toggle>
@@ -130,26 +130,17 @@ class DmpItemSelector extends PolymerElement {
   //---------------------------------------------------------
 
   reset() {
-    this.items = undefined;
+    this.items = null;
     this.valid = true;
-
   }
 
   isValid(){
     return this.valid;
   }
 
-  /**
-   * 
-   * @param {*} index item index
-   * @param {*} action true/false ( disabled )
-   */
-  toggleDisableItem(index, action) {
-    this.set(`items.${index}.disabled`, action);
-  }  
-
   _itemsChanged(newVal, oldVal) {
-    const items = this.items;
+    this.value = this.items || [];
+    const items = this.items || [];
     this.selectedItems = items.filter(item => item.selected);
     this._validateMax(items, this.maxItems, this.selectedItems );
   }
@@ -172,15 +163,6 @@ class DmpItemSelector extends PolymerElement {
       }
     });
   }
-
- 
 }
-
-
-
-
-
-
-
 
 window.customElements.define('dmp-item-selector', DmpItemSelector);
