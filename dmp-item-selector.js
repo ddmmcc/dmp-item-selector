@@ -37,8 +37,8 @@ class DmpItemSelector extends PolymerElement {
           --borderRadius : 6px;
           */
         }
-        .error{
-          color: red;
+        .errorMsg{
+          color: var(--error-color);
         }
         </style>
       
@@ -46,6 +46,7 @@ class DmpItemSelector extends PolymerElement {
 
       <p>[[label]]</p>
       <p>[[info]]</p>
+      <p class='errorMsg' hidden$='[[!invalid]]'>[[errorMsg]]</p>
       <div class='items'>
         <template is="dom-repeat" items="{{items}}" >
           <dmp-btn-toggle ownid$='[[item.id]]' selected="{{item.selected}}" disabled="{{item.disabled}}" class='item' value='{{item.value}}'></dmp-btn-toggle>
@@ -94,6 +95,9 @@ class DmpItemSelector extends PolymerElement {
       errorMsgs : {
         type : Array,
       },
+      errorMsg : {
+        type : String,
+      },
       error : {
         type : Boolean,
         value: false
@@ -110,6 +114,10 @@ class DmpItemSelector extends PolymerElement {
         value: false
       },
       autoValidate: {
+        type: Boolean,
+        value: false
+      },
+      invalid: {
         type: Boolean,
         value: false
       }
@@ -132,6 +140,7 @@ class DmpItemSelector extends PolymerElement {
   reset() {
     this.items = null;
     this.valid = true;
+    this.invalid = null;
   }
 
   isValid(){
@@ -152,6 +161,24 @@ class DmpItemSelector extends PolymerElement {
     }else if (items && validateMax){
       this._setItemsDisabled(items, true);
     }
+  }
+
+  _validateMin(items, validateMin, selectedItems) {
+     let result = (items && validateMin && (selectedItems || []).length >= validateMin);
+     if ( !result ) {
+       this.invalid = !result;
+       this.valid = result;
+       this.error = true;
+     }
+     return result;
+  }
+
+  validate() {
+    let result = true;
+    if ( this.minItems ) {
+      result = this._validateMin(this.items, this.minItems, this.selectedItems);
+    }
+    return this.valid && result;
   }
 
   _setItemsDisabled(items, all) {
